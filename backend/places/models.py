@@ -1,18 +1,29 @@
 from django.db import models
 from django.contrib.auth.models import User
-from core.mixins import TimeStampedModel, SoftDeleteModel
+from core.mixins import TimeStampedMixin, SoftDeleteMixin
 from django.contrib.contenttypes.fields import GenericRelation
-from .choices import PROVINCE_CHOICES
+from .choices import Provinces, AgeGroup
+from social.models import Like, Comment, Share
 
 # -----------------------------
 # 🧍 User Profile
 # -----------------------------
 
-class UserProfile(TimeStampedModel, SoftDeleteModel, models.Model):
+class UserProfile(TimeStampedMixin, SoftDeleteMixin, models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     profile_picture = models.ImageField(upload_to='profiles/', blank=True, null=True)
     bio = models.CharField(max_length=300, blank=True)
     city = models.ForeignKey('City', on_delete=models.SET_NULL, null=True, blank=True)
+    age_group = models.CharField(
+        max_length=10,
+        choices=AgeGroup.choices,
+        blank=True,
+        null=True
+    )
+    likes = GenericRelation(Like)
+    comments = GenericRelation(Comment)
+    shares = GenericRelation(Share)
+
 
     @property
     def like_count(self):
@@ -34,9 +45,9 @@ class UserProfile(TimeStampedModel, SoftDeleteModel, models.Model):
 # 🏙️ City
 # -----------------------------
 
-class City(TimeStampedModel, SoftDeleteModel, models.Model):
+class City(TimeStampedMixin, SoftDeleteMixin, models.Model):
     name = models.CharField(max_length=100, unique=True)
-    province = models.CharField(max_length=100, choices=PROVINCE_CHOICES, default='punjab')
+    province = models.CharField(max_length=100, choices=Provinces, default='punjab')
 
     def __str__(self):
         return self.name
@@ -45,7 +56,7 @@ class City(TimeStampedModel, SoftDeleteModel, models.Model):
 # 🗂️ Category
 # -----------------------------
 
-class Category(TimeStampedModel, SoftDeleteModel, models.Model):
+class Category(TimeStampedMixin, SoftDeleteMixin, models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -55,7 +66,7 @@ class Category(TimeStampedModel, SoftDeleteModel, models.Model):
 # 📍 Place
 # -----------------------------
 
-class Place(TimeStampedModel, SoftDeleteModel, models.Model):
+class Place(TimeStampedMixin, SoftDeleteMixin, models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
@@ -63,6 +74,9 @@ class Place(TimeStampedModel, SoftDeleteModel, models.Model):
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    likes = GenericRelation(Like)
+    comments = GenericRelation(Comment)
+    shares = GenericRelation(Share)
 
     @property
     def like_count(self):
