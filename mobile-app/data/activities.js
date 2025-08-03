@@ -1,5 +1,3 @@
-// data/activities.js
-
 export const activities = [
   {
     id: '1',
