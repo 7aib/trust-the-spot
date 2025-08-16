@@ -1,9 +1,11 @@
 # Python cache and compiled files
-__pycache__/
-*.py[cod]
-*$py.class
+
+**pycache**/
+_.py[cod]
+_$py.class
 
 # Virtual environment
+
 venv/
 .venv/
 env/
@@ -11,37 +13,47 @@ ENV/
 env.bak/
 venv.bak/
 
-# Django/migrations (except __init__.py)
-**/migrations/
-!*/migrations/__init__.py
+# Django/migrations (except **init**.py)
+
+\*_/migrations/
+!_/migrations/**init**.py
 
 # IDE/editor files
+
 .vscode/
 .idea/
-*.sublime-project
-*.sublime-workspace
+_.sublime-project
+_.sublime-workspace
 
 # Environment variables
+
 .env
-.env.*
+.env.\*
 
 # OS-specific files
+
 .DS_Store
 Thumbs.db
 
 # SQLite DB (if using)
-*.sqlite3
+
+\*.sqlite3
 
 # Media/static files (if not versioning)
+
 media/
+static/
 staticfiles/
 static_root/
 media_root/
 
+
 # Logs
-*.log
+
+\*.log
 
 # Coverage / testing
+
 .coverage
 htmlcov/
 .tox/
@@ -50,10 +62,12 @@ htmlcov/
 pytest_cache/
 
 # MyPy / Pyright
+
 .mypy_cache/
 .pyright/
 
 # Build artifacts
+
 build/
 dist/
-*.egg-info/
+\*.egg-info/
