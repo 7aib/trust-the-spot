@@ -92,3 +92,14 @@ class Place(TimeStampedMixin, SoftDeleteMixin, models.Model):
 
     def __str__(self):
         return self.name
+
+# -----------------------------
+# 📸 Videos
+# -----------------------------
+
+class Video(TimeStampedMixin, SoftDeleteMixin, models.Model):
+    title = models.CharField(max_length=255, blank=True, null=True)
+    file = models.FileField(upload_to="videos/")
+    place = models.ForeignKey(Place, on_delete=models.SET_NULL, null=True, blank=True)
+    def __str__(self):
+        return self.title or f"Video {self.id}"
