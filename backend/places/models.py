@@ -101,5 +101,22 @@ class Video(TimeStampedMixin, SoftDeleteMixin, models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
     file = models.FileField(upload_to="videos/")
     place = models.ForeignKey(Place, on_delete=models.SET_NULL, null=True, blank=True)
+    uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='uploaded_videos')
+    likes = GenericRelation(Like)
+    comments = GenericRelation(Comment)
+    shares = GenericRelation(Share)
+
+    @property
+    def like_count(self):
+        return self.likes.count()
+
+    @property
+    def comment_count(self):
+        return self.comments.count()
+
+    @property
+    def share_count(self):
+        return self.shares.count()
+
     def __str__(self):
         return self.title or f"Video {self.id}"

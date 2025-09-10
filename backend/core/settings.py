@@ -134,3 +134,19 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Change this to your email provider
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'your-email@gmail.com'  # Change this to your email
+EMAIL_HOST_PASSWORD = 'your-app-password'  # Change this to your app password
+DEFAULT_FROM_EMAIL = 'your-email@gmail.com'  # Change this to your email
+
+# Frontend URL for password reset links
+FRONTEND_URL = 'http://localhost:3000'  # Change this to your frontend URL
+
+# For development, you can use console email backend
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
