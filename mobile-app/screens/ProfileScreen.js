@@ -1,16 +1,19 @@
-import React, { useContext } from 'react';
-import { View, Text, Button, StyleSheet, Image } from 'react-native';
-import { AuthContext } from '../contexts/AuthContext';
-import LoginScreen from './LoginScreen';    
-const ProfileScreen = ({ navigation }) => {
-  const { user, logout } = useContext(AuthContext);
+import React from 'react';
+import { View, Text, Button, StyleSheet, Image, Alert } from 'react-native';
+import { useAuth } from '../contexts/AuthContext';
 
-  const handlePress = () => {
-    if (user) {
-      logout();
-    } else {
-      navigation.navigate('LoginScreen');
-    }
+const ProfileScreen = () => {
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    Alert.alert(
+      'Logout',
+      'Are you sure you want to logout?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'Logout', style: 'destructive', onPress: logout },
+      ]
+    );
   };
 
   return (
@@ -18,16 +21,16 @@ const ProfileScreen = ({ navigation }) => {
       {user ? (
         <>
           <Image
-            source={{ uri: user.profilePic || 'https://i.pravatar.cc/150?img=1' }}
+            source={{ uri: user.profilePic || user.avatar || 'https://i.pravatar.cc/150?img=1' }}
             style={styles.avatar}
           />
-          <Text style={styles.name}>{user.name}</Text>
-          <Button title="Logout" onPress={handlePress} />
+          <Text style={styles.name}>{user.name || user.username || 'User'}</Text>
+          <Text style={styles.email}>{user.email || ''}</Text>
+          <Button title="Logout" onPress={handleLogout} />
         </>
       ) : (
         <>
           <Text style={styles.guest}>You are not logged in</Text>
-          <Button title="Login" onPress={handlePress} />
         </>
       )}
     </View>
@@ -48,7 +51,12 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 22,
     fontWeight: '600',
-    marginBottom: 12,
+    marginBottom: 8,
+  },
+  email: {
+    fontSize: 16,
+    color: '#666',
+    marginBottom: 20,
   },
   avatar: {
     width: 100,
