@@ -1,6 +1,7 @@
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { activities } from '../data/activities';
+import ProtectedScreen from '../components/ProtectedScreen';
 
 const ActivityItem = ({ item }) => {
   let iconName;
@@ -37,7 +38,7 @@ const ActivityItem = ({ item }) => {
   );
 };
 
-const ActivityScreen = () => {
+const ActivityScreenContent = () => {
   return (
     <View style={styles.container}>
       <FlatList
@@ -47,6 +48,14 @@ const ActivityScreen = () => {
         contentContainerStyle={{ padding: 16 }}
       />
     </View>
+  );
+};
+
+const ActivityScreen = () => {
+  return (
+    <ProtectedScreen>
+      <ActivityScreenContent />
+    </ProtectedScreen>
   );
 };
 

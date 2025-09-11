@@ -2,8 +2,9 @@ import React, { useEffect, useState, useRef } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image, Alert } from "react-native";
 import { Camera, useCameraDevices } from "react-native-vision-camera";
 import { launchImageLibrary } from "react-native-image-picker";
+import ProtectedScreen from "../components/ProtectedScreen";
 
-export default function UploadScreen() {
+function UploadScreenContent() {
   const [hasPermission, setHasPermission] = useState(false);
   const [photo, setPhoto] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -149,6 +150,14 @@ export default function UploadScreen() {
         </View>
       )}
     </View>
+  );
+}
+
+export default function UploadScreen() {
+  return (
+    <ProtectedScreen>
+      <UploadScreenContent />
+    </ProtectedScreen>
   );
 }
 
